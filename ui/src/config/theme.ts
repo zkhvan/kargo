@@ -12,5 +12,4 @@ export const token: Partial<MapToken> = {
 export const theme: ThemeConfig = {
   // ...token,
   token,
-  }
 };
