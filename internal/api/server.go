@@ -9,6 +9,7 @@ import (
 
 	"connectrpc.com/grpchealth"
 	"github.com/pkg/errors"
+	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -152,7 +153,14 @@ func (s *server) Serve(ctx context.Context, l net.Listener) error {
 	}
 
 	srv := &http.Server{
-		Handler:           h2c.NewHandler(mux, &http2.Server{}),
+		Handler: cors.New( // CORS filter
+			cors.Options{
+				AllowCredentials: true,
+				AllowedOrigins:   []string{"*"},
+				AllowedMethods:   []string{"DELETE", "GET", "POST", "PUT"},
+				AllowedHeaders:   []string{"Authorization", "Content-Type"},
+			},
+		).Handler(h2c.NewHandler(mux, &http2.Server{})),
 		ReadHeaderTimeout: time.Minute,
 	}
 
