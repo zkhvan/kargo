@@ -9,6 +9,9 @@ metadata:
     {{- include "kargo.controller.labels" . | nindent 4 }}
 data:
   LOG_LEVEL: {{ quote .Values.controller.logLevel }}
+  {{- if .Values.controller.metrics.address }}
+  METRICS_ADDRESS: {{ quote .Values.controller.metrics.address }}
+  {{- end }}
   {{- if .Values.controller.shardName }}
   SHARD_NAME: {{ .Values.controller.shardName }}
   {{- end }}

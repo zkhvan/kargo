@@ -381,6 +381,10 @@ controller:
   ## @param controller.logLevel The log level for the controller.
   logLevel: INFO
 
+  metrics:
+    ## @param controller.metrics.address Set the built-in metrics address.
+    address: ""
+
   ## @param controller.resources Resources limits and requests for the controller containers.
   resources: {}
     # limits:

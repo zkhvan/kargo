@@ -41,6 +41,8 @@ type controllerOptions struct {
 	ArgoCDKubeConfig    string
 	ArgoCDNamespaceOnly bool
 
+	MetricsAddress string
+
 	Logger *logging.Logger
 }
 
@@ -72,6 +74,7 @@ func (o *controllerOptions) complete() {
 	o.ArgoCDEnabled = types.MustParseBool(os.GetEnv("ARGOCD_INTEGRATION_ENABLED", "true"))
 	o.ArgoCDKubeConfig = os.GetEnv("ARGOCD_KUBECONFIG", "")
 	o.ArgoCDNamespaceOnly = types.MustParseBool(os.GetEnv("ARGOCD_WATCH_ARGOCD_NAMESPACE_ONLY", "false"))
+	o.MetricsAddress = os.GetEnv("METRICS_ADDRESS", "0")
 }
 
 func (o *controllerOptions) run(ctx context.Context) error {
@@ -190,7 +193,7 @@ func (o *controllerOptions) setupKargoManager(
 		ctrl.Options{
 			Scheme: scheme,
 			Metrics: server.Options{
-				BindAddress: "0",
+				BindAddress: o.MetricsAddress,
 			},
 			Cache: cacheOpts,
 		},

@@ -22,6 +22,8 @@ api:
         enabled: false
 controller:
   logLevel: DEBUG
+  metrics:
+    address: ":8080"
 crds:
   install: true
 managementController:
