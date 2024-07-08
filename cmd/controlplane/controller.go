@@ -27,6 +27,7 @@ import (
 	"github.com/akuity/kargo/internal/credentials"
 	"github.com/akuity/kargo/internal/logging"
 	"github.com/akuity/kargo/internal/os"
+	"github.com/akuity/kargo/internal/runtime/pprof"
 	"github.com/akuity/kargo/internal/types"
 	versionpkg "github.com/akuity/kargo/internal/version"
 
@@ -193,7 +194,8 @@ func (o *controllerOptions) setupKargoManager(
 		ctrl.Options{
 			Scheme: scheme,
 			Metrics: server.Options{
-				BindAddress: o.MetricsAddress,
+				BindAddress:   o.MetricsAddress,
+				ExtraHandlers: pprof.GetHandlers(),
 			},
 			Cache: cacheOpts,
 		},
